@@ -18,16 +18,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     private List<Task> taskList;
     private SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy H:mm");
+    private OnTaskItemListener itemListener;
 
-    public TaskAdapter(List<Task> taskList) {
+    public TaskAdapter(List<Task> taskList, OnTaskItemListener listener) {
         this.taskList = taskList;
+        this.itemListener = listener;
     }
 
     @NonNull
     @Override
     public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.task_item, parent, false);
-        TaskViewHolder holder = new TaskViewHolder(view);
+        TaskViewHolder holder = new TaskViewHolder(view, itemListener);
         return holder;
     }
 
@@ -46,18 +48,29 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         return taskList.size();
     }
 
-    public class TaskViewHolder extends RecyclerView.ViewHolder {
+    public class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView textTaskInitial, textTaskTitle, textTaskDesc, textTaskStatus, textTaskDate;
-        public TaskViewHolder(@NonNull View itemView) {
+        private OnTaskItemListener listener;
+
+        public TaskViewHolder(@NonNull View itemView, OnTaskItemListener listener) {
             super(itemView);
             textTaskInitial = itemView.findViewById(R.id.task_initial);
             textTaskDesc = itemView.findViewById(R.id.task_description);
             textTaskTitle = itemView.findViewById(R.id.task_title);
             textTaskStatus = itemView.findViewById(R.id.task_status);
             textTaskDate = itemView.findViewById(R.id.task_date);
-
-
+            this.listener = listener;
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            this.listener.onTaskItemClick(getAdapterPosition());
+        }
+    }
+
+    public interface OnTaskItemListener{
+        void onTaskItemClick(int position);
     }
 }

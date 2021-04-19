@@ -44,9 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 tabLayout.getTabAt(1).setIcon(R.drawable.ic_baseline_favorite_24);
                 tabLayout.getTabAt(2).setIcon(R.drawable.ic_baseline_account_circle_24);
 
-//                BadgeDrawable badgeDrawable = tabLayout.getTabAt(0).getOrCreateBadge();
-//                badgeDrawable.setVisible(true);
-//                badgeDrawable.setNumber(10);
+
             }
         });
     }
